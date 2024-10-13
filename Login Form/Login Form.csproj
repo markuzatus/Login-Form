@@ -61,7 +61,6 @@
     <Compile Include="..\..\PINcode.Designer.cs">
       <DependentUpon>PINcode.cs</DependentUpon>
     </Compile>
-    <Compile Include="Class1.cs" />
     <Compile Include="Form2.cs">
       <SubType>Form</SubType>
     </Compile>
