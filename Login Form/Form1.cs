@@ -16,12 +16,13 @@ namespace Login_Form
         double resultValue = 0;
         string operationPerformed = "";
         bool isOperationPerformed = false;
-
+        private int maxLength = 4;
+        private string connectionString = (@"Data Source=CHERNAYADIRA\SQLEXPRESS;Initial Catalog=""Time Register"";Integrated Security=True");
         public Form1()
         {
             InitializeComponent();
+            txt_box_PinCode.MaxLength = maxLength;
         }
-        SqlConnection conn = new SqlConnection(@"Data Source=CHERNAYADIRA\SQLEXPRESS;Initial Catalog=""Time Register"";Integrated Security=True");
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -31,22 +32,70 @@ namespace Login_Form
         }
         private void btn_Click(object sender, EventArgs e)
         {
-            if (txt_box_PinCode.Text == "0" || (isOperationPerformed))
-                txt_box_PinCode.Clear();
+            string pinCode = txt_box_PinCode.Text;
 
-            isOperationPerformed = false;
-
-            Button button = (Button)sender;
-
-            //validation on deciamls more than 1
-            if (button.Text == ".")
+            // Query the database to check if the PIN exists
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                if (!txt_box_PinCode.Text.Contains("."))
+                try
+                {
+                    connection.Open();
+                    string query = "SELECT UserName FROM Users WHERE PinCode = @PinCode";
+                    SqlCommand command = new SqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@PinCode", pinCode);
+
+                    object result = command.ExecuteScalar(); // Gets the first column of the first row
+
+                    if (result != null)
+                    {
+                        // If the PIN is correct, open the DisplayForm
+                        string userName = result.ToString();
+                        Form2 displayForm = new Form2(Name);
+                        displayForm.Show();
+
+                        // Optionally hide or close the login form
+                        this.Hide();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Invalid PIN code. Please try again.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("An error occurred: " + ex.Message);
+                }
+
+                // Prevent further input if max length is reached and no operation was performed
+                if (txt_box_PinCode.Text.Length >= maxLength && !isOperationPerformed)
+                {
+                    MessageBox.Show($"Maximum length of {maxLength} reached.");
+                    return;
+                }
+
+                // Clear the TextBox if it contains "0" or a previous operation was performed
+                if (txt_box_PinCode.Text == "0" || isOperationPerformed)
+                {
+                    txt_box_PinCode.Clear();
+                }
+
+                isOperationPerformed = false; // Reset the operation flag for the next input
+
+                Button button = (Button)sender; // Get the button that was clicked
+
+
+                if (txt_box_PinCode.Text.Length < maxLength)
+                {
+                    // Allow any input including '0'
                     txt_box_PinCode.Text += button.Text;
-            }
-            else
-            {
-                txt_box_PinCode.Text += button.Text;
+                }
+
+                // Additional check after modification (optional)
+                if (txt_box_PinCode.Text.Length > maxLength)
+                {
+                    MessageBox.Show($"The maximum limit is {maxLength}");
+                    txt_box_PinCode.Text = txt_box_PinCode.Text.Substring(0, maxLength); // Truncate to maxLength
+                }
             }
         }
 
@@ -67,8 +116,8 @@ namespace Login_Form
 
         private void txt_box_PinCode_TextChanged(object sender, EventArgs e)
         {
-            
-            if (txt_box_PinCode.Text.Length>4)
+
+            if (txt_box_PinCode.Text.Length > 4)
             {
                 MessageBox.Show("The maximum limit is 4");
             }

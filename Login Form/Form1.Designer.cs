@@ -193,11 +193,10 @@
             this.txt_box_PinCode.BackColor = System.Drawing.SystemColors.HighlightText;
             this.txt_box_PinCode.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txt_box_PinCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 60F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.txt_box_PinCode.Location = new System.Drawing.Point(76, 25);
+            this.txt_box_PinCode.Location = new System.Drawing.Point(79, 25);
             this.txt_box_PinCode.MaxLength = 4;
-            this.txt_box_PinCode.Multiline = true;
             this.txt_box_PinCode.Name = "txt_box_PinCode";
-            this.txt_box_PinCode.Size = new System.Drawing.Size(309, 95);
+            this.txt_box_PinCode.Size = new System.Drawing.Size(309, 98);
             this.txt_box_PinCode.TabIndex = 1;
             this.txt_box_PinCode.TextChanged += new System.EventHandler(this.txt_box_PinCode_TextChanged);
             // 
@@ -206,7 +205,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
-            this.ClientSize = new System.Drawing.Size(481, 613);
+            this.ClientSize = new System.Drawing.Size(484, 611);
             this.Controls.Add(this.txt_box_PinCode);
             this.Controls.Add(this.btn_del);
             this.Controls.Add(this.btn_c);

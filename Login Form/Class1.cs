@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace Login_Form
 {
-    public class Class
+    public class Class1
     {
-        public int PinCode { get; set; }
+        private string userName {  get; set; }
+        private DateTime registrationTime { get; set; }
     }
 }
